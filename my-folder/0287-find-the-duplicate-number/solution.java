@@ -1,14 +1,20 @@
 class Solution {
-    
     public int findDuplicate(int[] nums) {
-        int[] arr = new int [nums.length];
         for (int i = 0; i < nums.length; i++) {
-            if (arr[nums[i]] == 0) {
-                arr[nums[i]] = 1;
-            } else {
-                return nums[i];
+            while (nums[i] != i +1) {
+                if (nums[i] == nums[nums[i]-1]) {
+                    return nums[i];
+                }
+                swap(nums, i ,  nums[i]-1);
             }
+
         }
-        return arr[0];
+        
+        return -1;
+    }
+    static void swap (int[] nums, int i, int j) {
+        int k = nums[i];
+        nums[i] = nums[j];
+        nums[j] = k;
     }
 }
