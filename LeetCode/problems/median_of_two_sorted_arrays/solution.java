@@ -1,62 +1,93 @@
 class Solution {
-    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+    
+    static double findMedianSortedArrays(int[] nums1, int[] nums2) {
         int totLength = nums1.length + nums2.length;
-        double answer = 0;
+
         if (totLength %2 == 0) {
+            double answer = 0;
             int median2 = totLength/2;
-            int num1 = 0;
             int median1 = totLength/2 -1;
-            int num2 = 0;
-            
-            for (int i = 0; i < nums1.length; i++) {
-                int position = posFinder(nums2, nums1[i]) + i;
-                if ( position == median1) {
-                    num1 = nums1[i];
-                } else if (position == median2) {
-                    num2 = nums1[i];
+            ArrayList<Integer> arr = new ArrayList<>();
+
+            int lo = 0;
+            int hi = nums1.length-1;
+
+            while (hi >= lo) {
+
+                int mid = lo + (hi - lo)/2;
+                int position = posFinder(nums2, nums1[mid]) + mid;
+                if ( position == median1 || position == median2) {
+                    arr.add(nums1[mid]);
+                    if (position == median1){
+                        lo = mid+1;
+                    } else {
+                        hi = mid-1;
+                    }
 
                 } else if (position > median2) {
-                    break;
+                    hi = mid-1;
+                } else if (position < median1) {
+                    lo = mid + 1;
                 }
             }
-            for (int i = 0; i < nums2.length; i++) {
-                int position = posFinder2(nums1, nums2[i]) + i;
-                if ( position == median1) {
-                    num1 = nums2[i];
-                } else if (position == median2) {
-                    num2 = nums2[i];
-
+            if (arr.size() == 2) {
+                answer = (arr.get(0) + arr.get(1));
+                answer = answer/2;
+                return answer;
+            }
+            lo = 0;
+            hi = nums2.length-1;
+            while (hi >= lo) {
+                int mid = lo + (hi - lo)/2;
+                int position = posFinder2(nums1, nums2[mid]) + mid;
+                if ( position == median1 || position == median2) {
+                    arr.add(nums2[mid]);
+                    if (position == median1){
+                        lo = mid+1;
+                    } else {
+                        hi = mid-1;
+                    }
                 } else if (position > median2) {
-                    break;
+                    hi = mid-1;
+                } else if (position < median1) {
+                    lo = mid + 1;
                 }
             }
 
-            answer = (num1 + num2);
+            answer = (arr.get(0) + arr.get(1));
             answer = answer/2;
+            return answer;
         } else {
             int median = totLength/2;
-            for (int i = 0; i < nums1.length; i++) {
-                int position = posFinder(nums2, nums1[i]) + i;
-                System.out.println();
+            int lo = 0;
+            int hi = nums1.length-1;
+            while (hi >= lo) {
+                int mid = lo + (hi - lo)/2;
+                int position = posFinder(nums2, nums1[mid]) + mid;
                 if ( position == median) {
-                    answer = nums1[i];
-                    return answer;
+                    return (double) nums1[mid];
                 } else if (position > median) {
-                    break;
+                    hi = mid-1;
+                } else {
+                    lo = mid + 1;
                 }
             }
 
-            for (int i = 0; i < nums2.length; i++) {
-                int position = posFinder2(nums1, nums2[i]) + i;
+            lo = 0;
+            hi = nums2.length-1;
+            while (hi >= lo) {
+                int mid = lo + (hi - lo)/2;
+                int position = posFinder2(nums1, nums2[mid]) + mid;
                 if ( position == median) {
-                    answer = nums2[i];
-                    return answer;
+                    return (double) nums2[mid];
                 } else if (position > median) {
-                    break;
+                    hi = mid-1;
+                } else {
+                    lo = mid + 1;
                 }
             }
         }
-        return answer;
+        return 0;
     }
 
     static int posFinder (int[] arr, int target) {
@@ -68,14 +99,13 @@ class Solution {
         if (target > arr[hi]) {
             return hi + 1;
         }
+        if (target < arr[lo]) {
+            return 0;
+        }
 
         while (hi >= lo) {
             int mid = (lo + hi) / 2;
-            // if (arr[mid] == target) {
-            //     System.out.println("mid is " + mid);
-            //     return mid;
 
-            // } 
             if (target < arr[mid]) {
                 hi = mid - 1;
             } else {
@@ -93,14 +123,13 @@ class Solution {
         if (target < arr[lo]) {
             return 0;
         }
+        if (target > arr[hi]) {
+            return hi + 1;
+        }
 
         while (hi >= lo) {
             int mid = (lo + hi) / 2;
-            // if (arr[mid] == target) {
-            //     System.out.println("mid is " + mid);
-            //     return mid;
 
-            // } 
             if (target <= arr[mid]) {
                 hi = mid - 1;
             } else {
@@ -109,6 +138,6 @@ class Solution {
         }
         return hi+1;
     }
+
 }
 
-    
