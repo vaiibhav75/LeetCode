@@ -1,6 +1,6 @@
 class Solution {
     public int shipWithinDays(int[] weights, int days) {
-//        Arrays.sort(weights);
+
         int max = 0;
         
         System.out.println(Arrays.toString(weights));
@@ -20,9 +20,6 @@ class Solution {
             int calDays = daysCalc(weights, mid);
             System.out.println("days calculated " + calDays);
             System.out.println();
-            // if (calDays == days) {
-            //     return mid;
-            // }else 
             if (calDays > days) {
                 lo = mid + 1;
             } else {
