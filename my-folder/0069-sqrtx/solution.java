@@ -1,21 +1,18 @@
 class Solution {
+
     static int mySqrt(int x) {
-        if (x == 0 || x == 1) {
-            return x;
+        float x1 = 1;
+        float x2 = (x1 + x/x1)/2;
+
+        while (!(x1 <= x2 + 0.001 && x1 >= x2 - 0.001)) {
+            x1 = x2;
+            x2 = (x1 + x/x1)/2;
+        }
+        int ans = (int) x2;
+        while (ans * ans > x) {
+            ans-= 1;
         }
 
-
-        int start = 1;
-        int end = x/2;
-
-        while (start <= end) {
-            int mid = start + (end-start)/2;
-            if (mid <= x/mid) {
-                start = mid +1;
-            } else {
-                end = mid - 1;
-            }
-        }
-        return end;
+        return ans ;
     }
 }
