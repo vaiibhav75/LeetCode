@@ -1,23 +1,28 @@
 class Solution {
-    public List<List<Integer>> subsetsWithDup(int[] nums) {
-        List<List<Integer>> ans = new ArrayList<>();
-        Arrays.sort(nums);
-        for (int i = 0; i < (1<< nums.length); i++) {
-            List<Integer> arr = new ArrayList<>();
-            int j = 0;
-            while (j < 12) {
-                if (((i>>j) & 1) == 1) {
-                    arr.add(nums[j]);
-                }
-                j++;
-            }
 
-//            Collections.sort(arr);
-            if (ans.contains(arr)) {
-                continue;
+
+    static List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> p = new ArrayList<>();
+        ans.add(p);
+        int a = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int n = ans.size();
+            int x = nums[i];
+
+            if (i == 0 || x != nums[i-1]) {
+                a = 0;
+            } 
+            for (int j = a; j < n; j++) {
+                List<Integer> curr = new ArrayList<>(ans.get(j));
+                curr.add(x);
+                ans.add(curr);
             }
-            ans.add(arr);
+            a = n;
         }
         return ans;
     }
+
+
 }
