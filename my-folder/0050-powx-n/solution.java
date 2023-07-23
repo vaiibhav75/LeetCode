@@ -1,35 +1,28 @@
 class Solution {
-    public double myPow(double x, int n) {
 
-        boolean isNeg = false;
+    public double myPow(double n, int k1) {
+        long k = k1;
         
-        if (n == Integer.MIN_VALUE) {
-            if (Math.abs(x) == 1) {
+        if (k < 0) {
+            n = 1/n;
+            k = -k;
+        }
+        if (k == 0) {
             return 1;
         }
-            return 0;
-        } else if (n == 0) {
-            return 1;
-        } 
-        if (n < 0) {
-            n = Math.abs(n);
-            isNeg = true;
-        }
-        double ans = 1;
-        while (n > 0) {
-            if ((n & 1) == 1) {
-                ans = ans*x;
-            }
 
-            n = n >> 1;
-            x *= x;
-
+        if (k == 1) {
+            return n;
         }
 
-        if (isNeg) {
-            ans = 1/ ans;
+        long y = k/2;
+        double x = myPow(n,(int)y);
+        if (k%2 == 0) {
+            double val = x *x ;
+            return  val;
         }
 
-        return ans;
+        double val = x *x*n;
+        return val;
     }
 }
