@@ -1,26 +1,30 @@
 class Solution {
     public int numSquares(int n) {
-        int[] arr = new int[n+1];
-        for (int i = 1; i*i <= n ; i++) {
-            arr[i*i] = 1;
-        }
+        map = new int[n+1];
+        Arrays.fill(map,-1);
+        map[0] = 0;
 
-        for (int i = 2; i <= n; i++) {
-            if (arr[i] == 1) {
-                continue;
-            }
-            int x = 1;
-            int y = i-1;
-            int min = Integer.MAX_VALUE;
-            while (x <= y) {
-                min = Math.min(min, arr[x] + arr[y]);
-                x++;
-                y--;
-            }
-            arr[i] = min;
-            
+        for (int i = 0; i*i <= n ; i++) {
+            map[i*i] = 1;
         }
-        return arr[n];
         
+        return solve(n);
+    }
+    
+    static int[] map;
+    
+    static int solve (int n) {
+        if (map[n] != -1) {
+            return map[n];
+        }
+        
+        int ans = n;
+
+        for (int i = 1; i*i <= n ; i++) {
+            ans = Math.min(ans, solve(n-(i*i) )+1);
+        }
+        
+        map[n] = ans;
+        return ans;
     }
 }
