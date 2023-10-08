@@ -1,19 +1,30 @@
 class Solution {
     public boolean isHappy(int n) {
-        Set<Integer> hash = new HashSet<>();
+        int slow = n;
+        int fast = n;
         
-        while (n != 1 && !hash.contains(n)) {
-            hash.add(n);
-            int sum = 0;
+        while (slow != 1 && fast != 1) {
+            slow = sum(slow);
+            fast = sum(sum(fast));
             
-            while (n > 0) {
-                sum += (n%10)*(n%10);
-                n /= 10;
+            if (slow == 1 || fast == 1) {
+                return true;
             }
-            
-            n = sum;
+            if (slow == fast) {
+                return false;
+            }
         }
         
-        return n == 1;
+        return true;
+    }
+
+    static int sum (int n) {
+        int ans = 0;
+        
+        while (n > 0) {
+            ans += (n%10)*(n%10);
+            n/=10;
+        }
+        return ans;
     }
 }
