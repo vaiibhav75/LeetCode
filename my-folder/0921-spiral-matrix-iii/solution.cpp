@@ -1,0 +1,53 @@
+#include <vector>
+
+class Solution {
+public:
+    std::vector<std::vector<int>> spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
+        std::vector<std::vector<int>> arr(rows * cols, std::vector<int>(2));
+        int m = rows - 1;
+        int n = cols - 1;
+        int a = rStart;
+        int b = cStart;
+        arr[0][0] = rStart;
+        arr[0][1] = cStart;
+        int num = 1;
+        
+        for (int i = 0; i <= std::max(m, n); i++) {
+            for (int j = 1; j <= 2 * i + 1; j++) {
+                b++;
+                if (b < cols && a < rows && a >= 0 && b >= 0) {
+                    arr[num][0] = a;
+                    arr[num][1] = b;
+                    num++;
+                }
+            }
+            for (int j = 1; j <= 2 * i + 1; j++) {
+                a++;
+                if (b < cols && a < rows && a >= 0 && b >= 0) {
+                    arr[num][0] = a;
+                    arr[num][1] = b;
+                    num++;
+                }
+            }
+
+            for (int j = 1; j <= 2 * i + 2; j++) {
+                b--;
+                if (b < cols && a < rows && a >= 0 && b >= 0) {
+                    arr[num][0] = a;
+                    arr[num][1] = b;
+                    num++;
+                }
+            }
+            for (int j = 1; j <= 2 * i + 2; j++) {
+                a--;
+                if (b < cols && a < rows && a >= 0 && b >= 0) {
+                    arr[num][0] = a;
+                    arr[num][1] = b;
+                    num++;
+                }
+            }
+        }
+        return arr;
+    }
+};
+
