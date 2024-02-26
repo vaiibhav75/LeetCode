@@ -1,35 +1,19 @@
 class Solution {
     public String removeDuplicates(String s) {
-        StringBuilder str = new StringBuilder(s);
-        return solver(str).toString();
-    }
-    
-    static StringBuilder solver(StringBuilder str) {
-        boolean found = false;
-        int x = -1;
-        
-        for (int i = 1; i < str.length(); i++) {
-            if (i == 0) {
-                break;
-            }
-            if (str.charAt(i) == str.charAt(i-1)) {
-                found = true;
-                x = i-1;
-                str.deleteCharAt(x);
-                str.deleteCharAt(x);
-                i--;
-                i--;
-                
+        Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            if (!stack.isEmpty() && s.charAt(i) == stack.peek()) {
+                stack.pop();
+            } else {
+                stack.push(s.charAt(i));
             }
         }
 
-        if (!found) {
-            return str;
+        StringBuilder ans = new StringBuilder();
+        while (!stack.isEmpty()) {
+            ans.append(stack.pop());
         }
-        
-        
-        
-        
-        return solver(str);
+        return ans.reverse().toString();
     }
 }
