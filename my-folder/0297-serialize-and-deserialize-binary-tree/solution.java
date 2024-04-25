@@ -10,46 +10,30 @@
 public class Codec {
 
     // Encodes a tree to a single string.
-    public String serialize(TreeNode root) {
-        StringBuilder sb = new StringBuilder();
+    public Queue<Integer> serialize(TreeNode root) {
+        Queue<Integer> sb = new LinkedList<>();
         buildString(root, sb);
-        return sb.toString();
+        return sb;
     }
-    
-    public void buildString(TreeNode root, StringBuilder sb) {
+
+    public void buildString(TreeNode root, Queue<Integer> sb) {
         if (root == null) {
-            sb.append("# ");
+            sb.add(1001);
             return;
         }
-        sb.append(root.val + " ");
+        sb.add(root.val);
         buildString(root.left, sb);
         buildString(root.right, sb);
     }
 
-   
-
-    
-
     // Decodes your encoded data to tree.
-    public TreeNode deserialize(String data) {
-        String[] traverse = data.split(" ");
-        ArrayList<String> list = new ArrayList<>(Arrays.asList(traverse));
-        return buildTree(list);
-    }
-    
-    public TreeNode buildTree(ArrayList<String> list) {
-        if (list.get(0).equals("#")) {
-            list.remove(0);
-            return null;
-        }
-        TreeNode root = new TreeNode(Integer.parseInt(list.get(0)));
-        list.remove(0);
-        root.left = buildTree(list);
-        root.right = buildTree(list);
-        return root;
+
+    public TreeNode deserialize(Queue<Integer> list) {
+        int x = list.poll();
+        if (x==1001) return null;
+        return new TreeNode(x,deserialize(list),deserialize(list));
     }
 
-    
 }
 
 // Your Codec object will be instantiated and called as such:
